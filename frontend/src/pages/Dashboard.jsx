@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../utils';
 import { ToastContainer } from 'react-toastify';
 
-function Home() {
+function Dashboard() {
     const [loggedInUser, setLoggedInUser] = useState('');
     const navigate = useNavigate();
     useEffect(() => {
@@ -22,7 +22,8 @@ function Home() {
 
     return (
         <div>
-            <h1>Welcome {loggedInUser}</h1>
+            <h1>Hello Admin {loggedInUser}</h1>
+            <h3>Welcome to Dashboard</h3>
             <button onClick={handleLogout}>Logout</button>
             <div>
             </div>
@@ -31,4 +32,4 @@ function Home() {
     )
 }
 
-export default Home
+export default Dashboard

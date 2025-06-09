@@ -6,16 +6,19 @@ function RefrshHandler({ setIsAuthenticated }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
+        const token = localStorage.getItem('token');
+        const superAdmin = localStorage.getItem('superAdmin');
+        const isAuthPage = ['/', '/login', '/signup'].includes(location.pathname);
+
+        if (token) {
             setIsAuthenticated(true);
-            if (location.pathname === '/' ||
-                location.pathname === '/login' ||
-                location.pathname === '/signup'
-            ) {
-                navigate('/home', { replace: false });
+
+            if (isAuthPage) {
+            const destination = superAdmin == 1 ? '/dashboard' : '/home';
+            navigate(destination, { replace: false });
             }
         }
-    }, [location, navigate, setIsAuthenticated])
+    }, [location.pathname, navigate, setIsAuthenticated])
 
     return (
         null

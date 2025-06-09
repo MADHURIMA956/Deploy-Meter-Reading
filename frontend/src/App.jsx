@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import NotFound from './pages/404';
+import Dashboard from './pages/Dashboard';
 import { useState } from 'react';
 import RefrshHandler from './RefreshHandler';
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         {/* 404 page catch-all */}
         <Route path="*" element={<NotFound />} />
       </Routes>

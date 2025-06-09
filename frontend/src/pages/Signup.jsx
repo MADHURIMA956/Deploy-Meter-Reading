@@ -5,7 +5,9 @@ import { handleError, handleSuccess } from '../utils';
 
 function Signup() {
   const navigate = useNavigate();
+  const [adminLogin, setAdminLogin] =useState(false)
   const [signupData, setSignupData] = useState({
+    superkey:'',
     name:'',
     email:'',
     password:'',
@@ -18,11 +20,24 @@ function Signup() {
     setSignupData(copySignupInfo);
   }
 
+   const handleToggle = () => {
+    if (!adminLogin) {
+      setAdminLogin(true); 
+    } else {
+      setAdminLogin(false); 
+    }
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
-    const {name,email,password} = signupData;
-    if(!name || !email || !password){
-      return handleError('Please enter the required credentials')
+    const {superkey,name,email,password} = signupData;
+    if (
+    !name?.trim() ||
+    !email?.trim() ||
+    !password?.trim() ||
+      (adminLogin && !superkey?.trim())
+    ) {
+      return handleError('Please enter the required credentials');
     }
     try{
       const url = `${import.meta.env.VITE_API_URL}auth/signup`
@@ -34,9 +49,12 @@ function Signup() {
         body: JSON.stringify(signupData)
       })
       const result =await response.json();
-      const {success, message,error} = result;
+      const {success, message,error,superAdmin} = result;
       if(success){
         handleSuccess(message);
+        if(superAdmin){
+          localStorage.setItem('superAdmin',1)
+        }
         setTimeout(() => {
           navigate('/login')
         }, 1000);
@@ -46,16 +64,46 @@ function Signup() {
       }else if(!success){
         handleError(message);
       }
-    }
-    catch (err){
+    }catch (err){
       handleError(err)
-    }
-
+    }finally {
+      // Always reset SignupData at the end regardless of the result
+      setSignupData({
+          superkey:'',
+          name:'',
+          email:'',
+          password:'',
+      });
+    } 
   }
   return (
     <div className='container'>
-      <h1>SignUp</h1>
+      <div className="header-row">
+      <h1> {adminLogin ? "Signup as Admin" : "Signup as User"}</h1>
+        <a
+          href="#"
+          className="admin-btn"
+          onClick={(e) => {
+            e.preventDefault();
+            handleToggle();
+          }}
+        >
+          {adminLogin ? "User Signup" : "Admin Signup"}
+        </a>
+      </div>
       <form onSubmit={handleSignup}>
+        {adminLogin ?
+        <div>
+          <label htmlFor="name">Admin Super Key <span>*</span></label>
+          <input 
+            onChange={handleChange}
+            type="password"
+            name='superkey'
+            placeholder='Enter Admin super key...'
+            value={signupData.superkey}
+          />
+        </div>
+        : null }
         <div>
           <label htmlFor="name">Name <span>*</span></label>
           <input 
@@ -90,7 +138,7 @@ function Signup() {
         </div>
         <button type='submit'>Signup</button>
         <span>Already has an account ?
-          <Link to="/login">Login</Link>
+          <Link to="/login"> Login</Link>
         </span>
       </form>
       <ToastContainer/>

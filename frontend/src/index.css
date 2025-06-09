@@ -22,27 +22,26 @@ body{
   align-items: center;
 }
 
-.container{
- background-color: #FFF;
-  padding: 32px 48px;
+.container {
+  background-color: #FFF;
+  padding: 24px 32px 32px 32px; /* top padding reduced a bit to accommodate header */
   border-radius: 10px;
   width: 100%;
   max-width: 400px;
   box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.container > form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1; /* allow form to take remaining space */
 }
 
 .container > h1{
   margin-bottom: 20px;
-}
-
-.container > form{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.container div{
-  display: flex;
-  flex-direction: column;
 }
 
 .container div label span{
@@ -71,4 +70,31 @@ button{
   padding: 10px;
   cursor: pointer;
   margin: 10px 0;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px; /* some space after header */
+}
+
+.header-row h1 {
+  margin: 0;
+  font-size: 1.5rem; /* ensure heading size */
+}
+
+.admin-btn {
+  background-color: #333;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none; /* if button */
+}
+
+button:hover {
+  background-color: rgb(206, 9, 121);;
 }
