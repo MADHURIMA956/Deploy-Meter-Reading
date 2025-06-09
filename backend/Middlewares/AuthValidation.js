@@ -27,7 +27,29 @@ const loginValidation = (req, res, next) => {
     }
     next();
 }
+
+const authenticatedSubmitValidation = (req, res, next) => {
+  const schema = Joi.object({
+    userId: Joi.string().required(),
+    reading: Joi.number().required(),
+     date: Joi.string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .required()
+      .label("date")
+      .messages({
+        'string.pattern.base': `"date" must be in YYYY-MM-DD format`
+      })
+  });
+  const { error } = schema.validate(req.body);
+    if (error) {
+        return res.status(400)
+            .json({ message: "Bad request", error })
+    }
+    next();
+};
+
 module.exports = {
     signupValidation,
-    loginValidation
+    loginValidation,
+    authenticatedSubmitValidation,
 }

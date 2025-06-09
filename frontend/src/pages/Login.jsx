@@ -47,14 +47,17 @@ function Login() {
         body: JSON.stringify(loginData)
       })
       const result =await response.json();
-      const {success, message, jwtToken, name,error,superAdmin} = result;
+      const {success, message, jwtToken, name,error,userId,superAdmin} = result;
       if(success){
         handleSuccess(message);
         if(superAdmin){
           localStorage.setItem('superAdmin',1)
         }
         localStorage.setItem('token',jwtToken);
-        localStorage.setItem('loggedInUser',name)
+        localStorage.setItem(
+          'loggedInUserData',
+          JSON.stringify({ name: name, userId: userId})
+        );
         setTimeout(() => {
           if(superAdmin == 1){
              navigate('/dashboard')

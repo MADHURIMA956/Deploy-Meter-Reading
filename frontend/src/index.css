@@ -96,5 +96,70 @@ button{
 }
 
 button:hover {
-  background-color: rgb(206, 9, 121);;
+  background-color: rgb(206, 9, 121);
+}
+
+
+
+/* Home Css */
+
+.home-containerv {
+  background-color: #FFF;
+  padding: 24px 32px 32px 32px; /* top padding reduced a bit to accommodate header */
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  display: flex;
+  flex-direction: column;
+} 
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input[type="number"] {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  outline-color: rgb(233, 83, 168);
+  transition: border-color 0.3s ease;
+}
+
+input::placeholder{
+  font-size: 12px;
+  font-style: italic;
+  color: rgb(222, 60, 152);
+}
+
+input[type="number"]:focus {
+  border-color: rgb(233, 83, 168);
+}
+
+button {
+  padding: 12px 15px;
+  font-size: 16px;
+  background-color: rgb(233, 83, 168);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgb(206, 9, 121) ;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px  rgb(233, 83, 168);
 }

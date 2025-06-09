@@ -1,7 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const UserModel = require("../Models/User");
+const mongoose = require('mongoose');
+const moment = require('moment'); 
 
+const UserModel = require("../Models/User");
+const MeterDataModel = require("../Models/MeterData");
 
 const signup = async (req, res) => {
     try {
@@ -82,6 +85,7 @@ const login = async (req, res) => {
       jwtToken,
       email,
       name: user.name,
+      userId: user._id,
       superAdmin: userHasSuperkey ? 1 : 0,
     });
 
@@ -94,7 +98,73 @@ const login = async (req, res) => {
 };
 
 
+const submit = async (req, res) => {
+  try {
+    const { userId, reading, date } = req.body;
+
+    // Validate userId format
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({
+        message: 'Invalid user ID format',
+        success: false
+      });
+    }
+
+    // Validate user existence
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(403).json({
+        message: 'You are not a valid user',
+        success: false
+      });
+    }
+
+    // Determine submission date (use today if not provided)
+    const submissionDate = date ? moment(date).startOf('day') : moment().startOf('day');
+    const nextDay = moment(submissionDate).add(1, 'day');
+
+    // Count submissions for the same user and day
+    const count = await MeterDataModel.countDocuments({
+      userId,
+      date: {
+        $gte: submissionDate.toDate(),
+        $lt: nextDay.toDate()
+      }
+    });
+
+    if (count >= 3) {
+      return res.status(429).json({
+        message: 'Meter reading submission limit (3 per day) reached',
+        success: false
+      });
+    }
+
+    // Prepare and save meter data
+    const meterData = new MeterDataModel({
+      userId,
+      reading,
+      date: date || new Date(),
+    });
+
+    await meterData.save();
+
+    return res.status(200).json({
+      message: 'Meter reading submitted successfully',
+      success: true,
+    });
+
+  } catch (err) {
+    console.error("Submit Error:", err);
+    return res.status(500).json({
+      message: 'Internal server error',
+      success: false
+    });
+  }
+};
+
+
 module.exports = {
     signup,
-    login
+    login,
+    submit,
 }
