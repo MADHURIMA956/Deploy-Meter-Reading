@@ -1,4 +1,3 @@
-
 *,
 ::before,
 ::after{
@@ -24,7 +23,7 @@ body{
 }
 
 .container{
-  background-color: #FFF;
+ background-color: #FFF;
   padding: 32px 48px;
   border-radius: 10px;
   width: 100%;
@@ -46,6 +45,9 @@ body{
   flex-direction: column;
 }
 
+.container div label span{
+  color: red;
+}
 .container input{
   width: 100%;
   font-size: 20px;
@@ -61,7 +63,7 @@ body{
 }
 
 button{
-  background-color: purple;
+  background-color: rgb(222, 60, 152);
   border: none;
   font-size: 20px;
   color: white;
