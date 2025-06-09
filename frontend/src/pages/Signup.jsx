@@ -5,13 +5,14 @@ import { handleError, handleSuccess } from '../utils';
 
 function Signup() {
   const navigate = useNavigate();
-  const [adminLogin, setAdminLogin] =useState(false)
+  const [adminLogin, setAdminLogin] =useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [signupData, setSignupData] = useState({
     superkey:'',
     name:'',
     email:'',
     password:'',
-  })
+  });
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -39,6 +40,7 @@ function Signup() {
     ) {
       return handleError('Please enter the required credentials');
     }
+    setIsDisabled(true);
     try{
       const url = `${import.meta.env.VITE_API_URL}auth/signup`
       const response = await fetch(url , {
@@ -51,6 +53,7 @@ function Signup() {
       const result =await response.json();
       const {success, message,error,superAdmin} = result;
       if(success){
+        setIsDisabled(false);
         handleSuccess(message);
         if(superAdmin){
           localStorage.setItem('superAdmin',1)
@@ -65,8 +68,10 @@ function Signup() {
         handleError(message);
       }
     }catch (err){
+      setIsDisabled(false);
       handleError(err)
     }finally {
+      setIsDisabled(false);
       // Always reset SignupData at the end regardless of the result
       setSignupData({
           superkey:'',
@@ -136,7 +141,7 @@ function Signup() {
             value={signupData.password}
           />
         </div>
-        <button type='submit'>Signup</button>
+        <button type='submit' className={isDisabled ?'disabled' : ''}>Signup</button>
         <span>Already has an account ?
           <Link to="/login"> Login</Link>
         </span>

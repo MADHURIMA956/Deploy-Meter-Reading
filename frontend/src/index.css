@@ -99,6 +99,12 @@ button:hover {
   background-color: rgb(206, 9, 121);
 }
 
+.disabled {
+  pointer-events: none;     /* Prevents clicking */
+  opacity: 0.6;             /* Makes it look faded */
+  background-color: #ccc;   /* Optional: Grey background */
+  cursor: not-allowed;      /* Shows disabled cursor */
+}
 
 
 /* Home CSS Start */
