@@ -24,7 +24,7 @@ function Login() {
       return handleError('Please enter the required credentials')
     }
     try{
-      const url = "http://localhost:8000/auth/login"
+      const url = `${import.meta.env.VITE_API_URL}auth/login`
       const response = await fetch(url , {
         method: "POST",
         headers:{
@@ -34,7 +34,6 @@ function Login() {
       })
       const result =await response.json();
       const {success, message, jwtToken, name,error} = result;
-      console.log("result",result)
       if(success){
         handleSuccess(message);
         localStorage.setItem('token',jwtToken);
@@ -56,7 +55,7 @@ function Login() {
   }
   return (
     <div className='container'>
-      <h1>Login</h1>
+      <h1>LogIn</h1>
       <form onSubmit={handleLogin}>
         <div>
           <label htmlFor="email">Email <span>*</span></label>
