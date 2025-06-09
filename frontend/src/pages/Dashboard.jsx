@@ -17,6 +17,7 @@ function Dashboard() {
     const handleLogout = (e) => {
         localStorage.removeItem('token');
         localStorage.removeItem('loggedInUserData');
+        localStorage.removeItem('superAdmin');
         handleSuccess('User Loggedout');
         setTimeout(() => {
             navigate('/login');
