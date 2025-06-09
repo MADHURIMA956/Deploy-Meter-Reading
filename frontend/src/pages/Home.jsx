@@ -39,7 +39,7 @@ function Home() {
 
         const reading = submitData.reading;
         const userId = loggedInUser?.userId;
-        const date = new Date().toISOString().split('T')[0];; 
+        const date = new Date().toISOString().split('T')[0];
 
         if (!reading || reading.toString().trim() === '') {
             return handleError('Please enter the meter reading');

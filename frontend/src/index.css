@@ -101,7 +101,7 @@ button:hover {
 
 
 
-/* Home Css */
+/* Home CSS Start */
 
 .home-containerv {
   background-color: #FFF;
@@ -163,3 +163,39 @@ button:focus {
   outline: none;
   box-shadow: 0 0 0 3px  rgb(233, 83, 168);
 }
+/* Home CSS Start */
+
+
+/* Dashboard CSS start */
+
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.data-table thead tr {
+  background-color: #f0f0f0;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #555;
+}
+
+
+/* Dashboard CSS start */
